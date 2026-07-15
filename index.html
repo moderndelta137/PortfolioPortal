@@ -2075,10 +2075,10 @@ let bgmList = [], bgmIdx = 0, bgmStarted = false;
 const bgmAudio = new Audio();
 bgmAudio.volume = .26; /* keep music under the sound effects */
 /* spectrum analyser — feeds the background visualizer */
-const BGM_VISUAL_FLOOR_DB = -60;
+const BGM_VISUAL_FLOOR_DB = -65;
 const BGM_VISUAL_CEILING_DB = -10;
-const BGM_VISUAL_CURVE = 1.35;
-const BGM_VISUAL_MAX_HEIGHT = .90;
+const BGM_VISUAL_CURVE = 1.10;
+const BGM_VISUAL_MAX_HEIGHT = .95;
 let bgmAnalyser = null, bgmData = null;
 function bgmHookAnalyser() {
   if (bgmAnalyser || !AC) return;
