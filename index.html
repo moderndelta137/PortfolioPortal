@@ -2075,6 +2075,10 @@ let bgmList = [], bgmIdx = 0, bgmStarted = false;
 const bgmAudio = new Audio();
 bgmAudio.volume = .26; /* keep music under the sound effects */
 /* spectrum analyser — feeds the background visualizer */
+const BGM_VISUAL_FLOOR_DB = -62;
+const BGM_VISUAL_CEILING_DB = -10;
+const BGM_VISUAL_CURVE = 1.85;
+const BGM_VISUAL_MAX_HEIGHT = .78;
 let bgmAnalyser = null, bgmData = null;
 function bgmHookAnalyser() {
   if (bgmAnalyser || !AC) return;
@@ -2084,11 +2088,13 @@ function bgmHookAnalyser() {
   try {
     const src = AC.createMediaElementSource(bgmAudio);
     bgmAnalyser = AC.createAnalyser();
-    bgmAnalyser.fftSize = 128;
-    bgmAnalyser.smoothingTimeConstant = .82;
+    bgmAnalyser.fftSize = 256;
+    bgmAnalyser.minDecibels = -100;
+    bgmAnalyser.maxDecibels = -10;
+    bgmAnalyser.smoothingTimeConstant = .72;
     src.connect(bgmAnalyser);
     bgmAnalyser.connect(AC.destination);
-    bgmData = new Uint8Array(bgmAnalyser.frequencyBinCount);
+    bgmData = new Float32Array(bgmAnalyser.frequencyBinCount);
   } catch (e) {}
 }
 function bgmTitle(f) { return f.replace(/\.[^.]+$/, "").replace(/_/g, " "); }
@@ -2186,7 +2192,7 @@ document.addEventListener("dragstart", e => e.preventDefault());
     let levels = null;
     if (typeof bgmAnalyser !== "undefined" && bgmAnalyser && bgmData &&
         !bgmAudio.paused && !bgmAudio.muted) {
-      bgmAnalyser.getByteFrequencyData(bgmData);
+      bgmAnalyser.getFloatFrequencyData(bgmData);
       levels = bgmData;
     }
     const nb = levels ? Math.max(1, Math.floor(levels.length * .75)) : 0;
@@ -2198,7 +2204,10 @@ document.addEventListener("dragstart", e => e.preventDefault());
       let target = d < R ? (1 - d / R) : 0;
       if (levels) { /* EQ columns rise from the bottom of the screen */
         const bin = Math.min(nb - 1, Math.floor(s.c / gcols * nb));
-        const lv = levels[bin] / 255;
+        const normalized = Math.max(0, Math.min(1,
+          (levels[bin] - BGM_VISUAL_FLOOR_DB) /
+          (BGM_VISUAL_CEILING_DB - BGM_VISUAL_FLOOR_DB)));
+        const lv = Math.pow(normalized, BGM_VISUAL_CURVE) * BGM_VISUAL_MAX_HEIGHT;
         const rowFrac = 1 - (s.r + 1) / grows; /* 0 = bottom row */
         if (lv > rowFrac) target = Math.max(target, Math.min(1, (lv - rowFrac) * 2.6) * .9);
       } else if (Math.random() < .00012) {
