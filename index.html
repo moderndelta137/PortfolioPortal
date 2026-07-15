@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#0f0f0e">
+<meta name="color-scheme" content="dark">
+<meta name="darkreader-lock">
 <title>ModernDelta137 — Game Vault</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,8 +19,8 @@
     --sky: #59c8ff;
     --violet: #b48cff;
     --gold: #ffc83d;
-    --card-w: 210px;
-    --card-h: 298px;
+    --card-w: 240px;
+    --card-h: 340px;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html, body { height: 100%; }
@@ -26,6 +28,7 @@
     background: var(--ink); color: var(--cream);
     font-family: "Space Grotesk", system-ui, sans-serif;
     overflow: hidden; min-height: 100vh;
+    user-select: none; -webkit-user-select: none;
   }
   ::selection { background: var(--lime); color: var(--ink); }
   button { font-family: inherit; }
@@ -46,17 +49,45 @@
   /* ---------- marquee / corners ---------- */
   #marquee {
     position: fixed; top: 0; left: 0; right: 0; z-index: 20;
-    background: var(--lime); color: var(--ink); overflow: hidden; white-space: nowrap;
-    font-family: "Bebas Neue", sans-serif; font-size: 28px; letter-spacing: .14em;
-    padding: 8px 0 6px; border-bottom: 3px solid var(--ink); line-height: 1;
+    height: 34px; display: flex; align-items: center;
+    background: var(--lime); color: var(--ink); overflow: hidden;
+    border-bottom: 2px solid var(--ink);
   }
-  #marquee .track { display: inline-block; will-change: transform; }
+  #marquee .track {
+    display: flex; width: max-content; flex: none;
+    animation: marqMove 40s linear infinite;
+  }
+  #marquee .track span {
+    display: block; flex: none; white-space: nowrap;
+    font-family: "Bebas Neue", sans-serif; font-size: 17px;
+    letter-spacing: .18em; line-height: 1;
+    margin-right: .5em;
+    text-decoration: none !important;
+  }
+  @keyframes marqMove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
   .corner {
     position: fixed; z-index: 20; font-size: 11px; letter-spacing: .25em;
     text-transform: uppercase; color: var(--cream); opacity: .85; pointer-events: none;
   }
-  #cTL { top: 66px; left: 24px; }
-  #cBL { bottom: 18px; left: 24px; }
+  #cTL { top: 54px; left: 24px; }
+  #cBL { bottom: 68px; left: 24px; }
+  /* ---------- BGM player ---------- */
+  #bgmBar {
+    position: fixed; bottom: 16px; left: 20px; z-index: 26;
+    display: flex; align-items: center; gap: 2px;
+    background: var(--ink); border: 2px solid var(--cream); border-radius: 30px;
+    padding: 6px 14px 6px 8px;
+  }
+  #bgmBar button {
+    background: none; border: none; color: var(--cream); cursor: pointer;
+    font-size: 15px; padding: 4px 7px; line-height: 1;
+  }
+  #bgmBar button:hover { color: var(--lime); }
+  #bgmName {
+    font-family: "Bebas Neue", sans-serif; font-size: 14px; letter-spacing: .12em;
+    color: var(--lime); max-width: 170px; overflow: hidden; white-space: nowrap;
+    text-overflow: ellipsis; margin-left: 6px;
+  }
   #cBR { bottom: 18px; right: 24px; text-align: right; }
   .corner .accent { color: var(--lime); }
   .corner .serif { font-family: "Space Grotesk", sans-serif; font-style: italic;
@@ -64,7 +95,7 @@
 
   /* ---------- codex button ---------- */
   #codexBtn {
-    position: fixed; top: 64px; right: 24px; z-index: 25;
+    position: fixed; top: 52px; right: 24px; z-index: 25;
     background: var(--ink); color: var(--cream);
     border: 2px solid var(--cream); border-radius: 40px;
     padding: 9px 20px; cursor: pointer;
@@ -108,8 +139,8 @@
   }
   .shelfPack {
     position: absolute; top: 0; left: 0;
-    width: 276px; height: 394px;
-    margin-left: -138px; margin-top: -197px;
+    width: 320px; height: 458px;
+    margin-left: -160px; margin-top: -229px;
     transform-style: preserve-3d; cursor: pointer;
     will-change: transform, opacity;
   }
@@ -133,52 +164,52 @@
     background: linear-gradient(115deg, transparent 42%, rgba(244,241,232,.15) 50%, transparent 58%);
     animation: foil 3.4s linear infinite; }
   .pk0 .w1 { position: absolute; left: 4px; top: 50%; transform: translateY(-50%);
-    writing-mode: vertical-rl; font-size: 62px; line-height: .9; color: transparent;
+    writing-mode: vertical-rl; font-size: 74px; line-height: .9; color: transparent;
     -webkit-text-stroke: 1.5px rgba(244,241,232,.6); letter-spacing: .04em; }
-  .pk0 .w2 { position: absolute; right: 12px; bottom: 46px; text-align: right;
-    font-size: 32px; line-height: .95; color: var(--lime); }
-  .pk0 .w3 { position: absolute; right: 12px; bottom: 16px; font-size: 14px;
+  .pk0 .w2 { position: absolute; right: 12px; bottom: 50px; text-align: right;
+    font-size: 38px; line-height: .95; color: var(--lime); }
+  .pk0 .w3 { position: absolute; right: 12px; bottom: 18px; font-size: 16px;
     letter-spacing: .3em; color: var(--coral); animation: pkFlicker 3.2s linear infinite; }
   .pk0 .ser { color: rgba(244,241,232,.6); }
   /* 1 — ACID */
   .pk1 { background: var(--lime); color: var(--ink); }
-  .pk1 .w1 { position: absolute; top: 14px; left: 14px; font-size: 72px; line-height: .82; }
+  .pk1 .w1 { position: absolute; top: 16px; left: 16px; font-size: 86px; line-height: .82; }
   .pk1 .w1 em { font-style: normal; display: inline-block; animation: pkWobble 1.1s ease-in-out infinite; }
-  .pk1 .mq { position: absolute; bottom: 56px; left: 0; right: 0; overflow: hidden;
+  .pk1 .mq { position: absolute; bottom: 64px; left: 0; right: 0; overflow: hidden;
     white-space: nowrap; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink);
-    font-size: 19px; letter-spacing: .18em; padding: 4px 0; }
+    font-size: 22px; letter-spacing: .18em; padding: 5px 0; }
   .pk1 .mq i { display: inline-block; font-style: normal; animation: pkMarqX 7s linear infinite; }
   .pk1 .w2 { position: absolute; bottom: 14px; left: 14px;
     font-family: "Space Grotesk", sans-serif; font-size: 12px; letter-spacing: .12em; }
   .pk1 .ser { color: var(--ink); }
   /* 2 — BLOOD */
   .pk2 { background: var(--coral); color: var(--cream); }
-  .pk2 .w1 { position: absolute; top: 30px; left: 0; right: 0; text-align: center;
-    font-size: 64px; line-height: .85; transform: rotate(-7deg); }
+  .pk2 .w1 { position: absolute; top: 36px; left: 0; right: 0; text-align: center;
+    font-size: 76px; line-height: .85; transform: rotate(-7deg); }
   .pk2 .w1 span { display: inline-block; animation: pkBounce 1.5s ease-in-out infinite; }
   .pk2 .stripe { position: absolute; bottom: -14px; left: -20%; right: -20%; height: 78px;
     background: repeating-linear-gradient(45deg, var(--ink) 0 16px, transparent 16px 32px);
     transform: rotate(-4deg); }
-  .pk2 .w2 { position: absolute; bottom: 88px; left: 0; right: 0; text-align: center;
-    font-size: 17px; letter-spacing: .34em; }
+  .pk2 .w2 { position: absolute; bottom: 100px; left: 0; right: 0; text-align: center;
+    font-size: 20px; letter-spacing: .34em; }
   .pk2 .ser { color: var(--cream); }
   /* 3 — SKY INDEX */
   .pk3 { background: var(--sky); color: var(--ink); }
   .pk3 .col { position: absolute; left: 12px; top: 0; bottom: 0; width: 58%; overflow: hidden; }
-  .pk3 .col i { display: block; font-style: normal; font-size: 25px; line-height: 1.08;
+  .pk3 .col i { display: block; font-style: normal; font-size: 30px; line-height: 1.08;
     animation: pkMarqY 11s linear infinite; }
-  .pk3 .big { position: absolute; right: 10px; top: 38%; width: 84px; height: 84px;
+  .pk3 .big { position: absolute; right: 12px; top: 38%; width: 100px; height: 100px;
     border: 3px solid var(--ink); border-radius: 50%; display: flex; align-items: center;
-    justify-content: center; font-size: 34px; animation: pkSpin 9s linear infinite; }
+    justify-content: center; font-size: 40px; animation: pkSpin 9s linear infinite; }
   .pk3 .w2 { position: absolute; right: 12px; bottom: 12px; font-size: 15px; letter-spacing: .2em; }
   .pk3 .ser { color: var(--ink); }
   /* 4 — VIOLET SEAL */
   .pk4 { background: radial-gradient(circle at 50% 45%, #cfa9ff, var(--violet) 70%); color: var(--ink); }
-  .pk4 .ring { position: absolute; left: 50%; top: 42%; width: 216px; height: 216px;
-    margin: -108px 0 0 -108px; animation: pkSpin 16s linear infinite; }
+  .pk4 .ring { position: absolute; left: 50%; top: 42%; width: 256px; height: 256px;
+    margin: -128px 0 0 -128px; animation: pkSpin 16s linear infinite; }
   .pk4 .ring text { font-family: "Bebas Neue", sans-serif; font-size: 10.5px;
     letter-spacing: .3em; fill: var(--ink); }
-  .pk4 .ic { position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%); font-size: 56px; }
+  .pk4 .ic { position: absolute; left: 50%; top: 42%; transform: translate(-50%,-50%); font-size: 68px; }
   .pk4 .w2 { position: absolute; bottom: 16px; left: 0; right: 0; text-align: center;
     font-size: 22px; letter-spacing: .3em; animation: pkFlicker 2.6s linear infinite; }
   .pk4 .ser { color: var(--ink); }
@@ -187,12 +218,12 @@
   .pk5::before { content: ""; position: absolute; inset: -60%;
     background: linear-gradient(115deg, transparent 40%, rgba(255,255,255,.5) 50%, transparent 60%);
     animation: foil 2.6s linear infinite; }
-  .pk5 .w1 { position: absolute; top: 34px; left: 0; right: 0; text-align: center;
-    font-size: 84px; line-height: .8; animation: pkFlicker 4s linear infinite; }
-  .pk5 .w2 { position: absolute; bottom: 70px; left: 0; right: 0; text-align: center;
-    font-family: "Space Grotesk", sans-serif; font-style: italic; font-size: 13px; padding: 0 14px; }
-  .pk5 .w3 { position: absolute; bottom: 18px; left: 0; right: 0; text-align: center;
-    font-size: 22px; letter-spacing: .28em; }
+  .pk5 .w1 { position: absolute; top: 42px; left: 0; right: 0; text-align: center;
+    font-size: 100px; line-height: .8; animation: pkFlicker 4s linear infinite; }
+  .pk5 .w2 { position: absolute; bottom: 80px; left: 0; right: 0; text-align: center;
+    font-family: "Space Grotesk", sans-serif; font-style: italic; font-size: 15px; padding: 0 16px; }
+  .pk5 .w3 { position: absolute; bottom: 22px; left: 0; right: 0; text-align: center;
+    font-size: 26px; letter-spacing: .28em; }
   .pk5 .ser { color: rgba(15,15,14,.7); }
   @keyframes pkWobble { 0%,100% { transform: rotate(-3deg);} 50% { transform: rotate(3deg);} }
   @keyframes pkBounce { 0%,100% { transform: translateY(0);} 50% { transform: translateY(-9px);} }
@@ -221,7 +252,7 @@
     color: transparent; -webkit-text-stroke: 1.5px rgba(244,241,232,.2); line-height: .85;
   }
   #packWrap { position: relative; z-index: 5; }
-  #pack { position: relative; width: 286px; height: 408px; touch-action: none; }
+  #pack { position: relative; width: 336px; height: 480px; touch-action: none; }
   .packFace {
     position: absolute; left: 0; right: 0;
     background:
@@ -231,7 +262,7 @@
     border: 2px solid var(--cream); overflow: hidden;
   }
   #packTop {
-    top: 0; height: 64px; z-index: 6;
+    top: 0; height: 76px; z-index: 6;
     border-radius: 16px 16px 0 0; border-bottom: none;
     display: flex; align-items: center; justify-content: center;
   }
@@ -246,7 +277,7 @@
     box-shadow: 0 0 14px var(--lime), 0 0 30px rgba(216,255,61,.6); z-index: 7;
   }
   #packBody {
-    top: 62px; bottom: 0; z-index: 5;
+    top: 74px; bottom: 0; z-index: 5;
     border-radius: 0 0 16px 16px; border-top: none;
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
   }
@@ -261,7 +292,7 @@
   #packBody .packCount { font-size: 10px; letter-spacing: .4em; color: rgba(244,241,232,.6); }
   /* generous slash zone = top 40% of pack */
   #slashZone {
-    position: absolute; top: -22px; left: -26px; right: -26px; height: 46%;
+    position: absolute; top: -52px; left: -80px; right: -80px; height: 72%;
     z-index: 9; cursor: grab; touch-action: none;
   }
   #slashZone:active { cursor: grabbing; }
@@ -280,7 +311,7 @@
 
   #flash { position: fixed; inset: 0; background: var(--cream); opacity: 0; pointer-events: none; z-index: 65; }
   .particle { position: fixed; pointer-events: none; z-index: 60; }
-  .spark { position: fixed; width: 6px; height: 6px; border-radius: 50%;
+  .spark { position: fixed; width: 10px; height: 10px; border-radius: 50%;
     background: var(--lime); box-shadow: 0 0 10px var(--lime); pointer-events: none; z-index: 60; }
 
   /* ================= GALLERY ================= */
@@ -310,14 +341,14 @@
     display: flex; align-items: center; justify-content: center;
     border-bottom: 2px solid var(--ink);
   }
-  .art .icon { font-size: 54px; position: relative; z-index: 2; filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
+  .art .icon { font-size: 64px; position: relative; z-index: 2; filter: drop-shadow(0 6px 10px rgba(0,0,0,.3)); }
   .art .num { position: absolute; top: 4px; left: 10px; z-index: 3;
-    font-family: "Bebas Neue", sans-serif; font-size: 40px; color: rgba(15,15,14,.9); line-height: 1; }
+    font-family: "Bebas Neue", sans-serif; font-size: 46px; color: rgba(15,15,14,.9); line-height: 1; }
   .art .rar { position: absolute; top: 10px; right: 10px; z-index: 3;
     font-size: 9px; letter-spacing: .25em; text-transform: uppercase;
     background: var(--ink); color: var(--cream); padding: 3px 7px; border-radius: 3px; }
   .cardLower { flex: 1; color: var(--ink); padding: 9px 12px; display: flex; flex-direction: column; position: relative; z-index: 2; }
-  .cardName { font-family: "Bebas Neue", sans-serif; font-size: 22px; line-height: .95; letter-spacing: .03em; min-height: 1em; }
+  .cardName { font-family: "Bebas Neue", sans-serif; font-size: 25px; line-height: .95; letter-spacing: .03em; min-height: 1em; }
   .cardType { font-family: "Space Grotesk", sans-serif; font-style: italic; font-size: 13px; margin-top: 3px; color: #55554d; }
   .tags { display: flex; flex-wrap: wrap; gap: 4px; margin-top: auto; }
   .tag { font-size: 8.5px; letter-spacing: .12em; text-transform: uppercase;
@@ -363,6 +394,42 @@
     50% { filter: hue-rotate(180deg); opacity: 1; }
     100% { filter: hue-rotate(360deg); opacity: .8; }
   }
+  /* legendary extras: gold pulse border, sunburst holo pattern, glitter, rainbow name */
+  .f-legendary { border-color: var(--gold) !important; animation: legendGlow 2.4s ease-in-out infinite; }
+  @keyframes legendGlow {
+    0%, 100% { box-shadow: 0 0 14px rgba(255,200,61,.5), 0 0 44px rgba(255,200,61,.16); }
+    50% { box-shadow: 0 0 30px rgba(255,200,61,.9), 0 0 80px rgba(255,120,61,.35); }
+  }
+  .holo {
+    position: absolute; inset: 0; z-index: 4; pointer-events: none;
+    background: repeating-conic-gradient(from 0deg at 50% 42%,
+      rgba(255,75,46,.4) 0deg 18deg, rgba(255,200,61,.4) 18deg 36deg,
+      rgba(216,255,61,.4) 36deg 54deg, rgba(89,200,255,.4) 54deg 72deg,
+      rgba(180,140,255,.4) 72deg 90deg);
+    mix-blend-mode: color-dodge; opacity: .55;
+    animation: holoHue 7s linear infinite;
+  }
+  @keyframes holoHue { from { filter: hue-rotate(0deg); } to { filter: hue-rotate(360deg); } }
+  .holo::after { /* drifting glitter */
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle, rgba(255,255,255,.95) 1.2px, transparent 2.4px),
+      radial-gradient(circle, rgba(255,255,255,.7) 1px, transparent 2px);
+    background-size: 46px 46px, 29px 29px;
+    background-position: 0 0, 12px 20px;
+    mix-blend-mode: screen; opacity: .55;
+    animation: glitter 3.2s linear infinite;
+  }
+  @keyframes glitter { from { background-position: 0 0, 12px 20px; }
+    to { background-position: 46px 46px, 41px 49px; } }
+  .legName {
+    background: linear-gradient(90deg, var(--coral), var(--gold), var(--lime), var(--sky), var(--violet), var(--coral));
+    background-size: 300% 100%;
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    animation: legText 3.5s linear infinite;
+  }
+  @keyframes legText { from { background-position: 0% 0; } to { background-position: 300% 0; } }
+  .f-legendary .rar { background: linear-gradient(90deg, var(--gold), var(--coral)); color: var(--ink); }
   /* code rain overlay (legendary) */
   .rain { position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden;
     mix-blend-mode: overlay; opacity: .8; }
@@ -491,8 +558,11 @@
   #fxCanvas { position: absolute; inset: 0; pointer-events: none; display: block; }
   #focusWrap { position: relative; perspective: 1600px; }
   #focusFlip {
-    position: relative; width: 330px; height: 468px;
+    position: relative; width: 470px; height: 666px;
     transform-style: preserve-3d; cursor: pointer;
+  }
+  @media (max-height: 820px) {
+    #focusFlip { width: 400px; height: 567px; }
   }
   #focusFlip .fface {
     position: absolute; inset: 0; backface-visibility: hidden;
@@ -501,25 +571,35 @@
   }
   #ffFront { background: var(--cream); display: flex; flex-direction: column; }
   #ffFront .art { height: 50%; }
-  #ffFront .art .icon { font-size: 76px; }
-  #ffFront .art .num { font-size: 54px; }
-  #ffFront .cardName { font-size: 30px; }
-  #ffFront .cardType { font-size: 15px; }
+  #ffFront .art .icon { font-size: 100px; }
+  #ffFront .art .num { font-size: 68px; }
+  #ffFront .cardName { font-size: 38px; }
+  #ffFront .cardType { font-size: 18px; }
   #ffBack {
     transform: rotateY(180deg);
     background: linear-gradient(165deg, #1c1c18, #0f0f0e);
     display: flex; flex-direction: column; padding: 22px 20px;
   }
-  #ffBack .idx { font-family: "Bebas Neue", sans-serif; color: var(--coral); font-size: 15px; letter-spacing: .2em; }
-  #ffBack h2 { font-family: "Bebas Neue", sans-serif; font-size: 32px; line-height: .95; margin-top: 4px; color: var(--cream); }
-  #ffBack .ft { font-family: "Space Grotesk", sans-serif; font-style: italic; color: var(--lime); font-size: 15px; margin: 6px 0 10px; }
-  #ffBack p { color: rgba(244,241,232,.85); font-size: 12.5px; line-height: 1.6; flex: 1; }
+  #ffBack .idx { font-family: "Bebas Neue", sans-serif; color: var(--coral); font-size: 18px; letter-spacing: .2em; }
+  #ffBack h2 { font-family: "Bebas Neue", sans-serif; font-size: 42px; line-height: .95; margin-top: 4px; color: var(--cream); }
+  #ffBack .ft { font-family: "Space Grotesk", sans-serif; font-style: italic; color: var(--lime); font-size: 18px; margin: 8px 0 12px; }
+  #ffBack p { color: rgba(244,241,232,.85); font-size: 15px; line-height: 1.65; flex: 1; }
   #ffBack .tags { margin: 10px 0; }
   #ffBack .tag { border-color: rgba(244,241,232,.5); color: var(--cream); }
+  #ffBack .statRow { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .viewCt { font-size: 13px; color: rgba(244,241,232,.75); white-space: nowrap; flex: none; }
+  .heartBtn {
+    background: none; border: 2px solid rgba(244,241,232,.5); color: var(--cream);
+    border-radius: 30px; padding: 9px 13px; cursor: pointer; flex: none;
+    font-family: "Space Grotesk", sans-serif; font-size: 14px; white-space: nowrap;
+    transition: border-color .2s, color .2s, background .2s;
+  }
+  .heartBtn:hover { border-color: var(--coral); color: var(--coral); }
+  .heartBtn.on { border-color: var(--coral); color: var(--coral); background: rgba(255,75,46,.14); }
   #ffPlay {
-    display: block; text-align: center; text-decoration: none;
-    font-family: "Bebas Neue", sans-serif; font-size: 20px; letter-spacing: .18em;
-    background: var(--lime); color: var(--ink); padding: 11px; border-radius: 40px;
+    flex: 1; display: block; text-align: center; text-decoration: none;
+    font-family: "Bebas Neue", sans-serif; font-size: 24px; letter-spacing: .18em;
+    background: var(--lime); color: var(--ink); padding: 13px; border-radius: 40px;
     border: 2px solid var(--lime); transition: all .2s;
   }
   #ffPlay:hover { background: transparent; color: var(--lime); }
@@ -546,7 +626,7 @@
   #codexSub { font-family: "Space Grotesk", sans-serif; font-style: italic; margin-top: 6px; color: #55554d; }
   #codexGrid {
     margin-top: 34px; display: grid; gap: 26px;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(215px, 1fr));
     perspective: 1200px;
   }
   .slot { position: relative; }
@@ -573,7 +653,7 @@
     padding: 4px 11px; border: 2px solid var(--cream);
   }
   #codexClose {
-    position: fixed; top: 64px; right: 24px; z-index: 46;
+    position: fixed; top: 52px; right: 24px; z-index: 46;
     background: var(--ink); color: var(--cream); border: none; cursor: pointer;
     font-size: 13px; letter-spacing: .2em; padding: 10px 18px; border-radius: 30px; display: none;
   }
@@ -597,7 +677,7 @@
   #codexView.complete #masterBanner { display: block; }
 
   @media (max-width: 720px) {
-    :root { --card-w: 148px; --card-h: 210px; }
+    :root { --card-w: 168px; --card-h: 238px; }
     .art .icon { font-size: 36px; }
     .art .num { font-size: 28px; }
     .cardName { font-size: 16px; }
@@ -606,10 +686,10 @@
     .clockFace { width: 52px; height: 52px; }
     .hand { height: 20px; } .hand2 { height: 15px; }
     #cBL, #cBR { display: none; }
-    #focusFlip { width: 240px; height: 340px; }
+    #focusFlip { width: 272px; height: 386px; }
     #codexGrid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
-    .shelfPack { width: 224px; height: 320px; margin-left: -112px; margin-top: -160px; }
-    #pack { width: 250px; height: 356px; }
+    .shelfPack { width: 258px; height: 369px; margin-left: -129px; margin-top: -185px; }
+    #pack { width: 290px; height: 414px; }
   }
 </style>
 </head>
@@ -618,11 +698,17 @@
 <div id="grain"></div>
 <div id="flash"></div>
 
-<div id="marquee"><div class="track" id="marqTrack"></div></div>
+<div id="marquee"><div class="track" id="marqTrack"><span>CHRONOS ENGINE ✦ RHYTHM STUDIO ✦ MOUNTAIN CHASE: DRIFT DUEL ✦ CO-OP POSITIONING RPG ✦ STEAM REVIEW ANALYZER ✦ EXECUTION FRAME TRAINER ✦ CODEX-IDLE ✦ SLAY THE TINY SPIRE ✦ IDLE NETWORK ✦ DIRECTOR AVATAR ✦ 聖杯戦争 ADV RPG ✦</span><span>CHRONOS ENGINE ✦ RHYTHM STUDIO ✦ MOUNTAIN CHASE: DRIFT DUEL ✦ CO-OP POSITIONING RPG ✦ STEAM REVIEW ANALYZER ✦ EXECUTION FRAME TRAINER ✦ CODEX-IDLE ✦ SLAY THE TINY SPIRE ✦ IDLE NETWORK ✦ DIRECTOR AVATAR ✦ 聖杯戦争 ADV RPG ✦</span></div></div>
 <div class="corner" id="cTL">MODERNDELTA137<br><span class="serif">indie game experiments</span></div>
 <div class="corner" id="cBL">POWERED BY <span class="accent">GSAP</span></div>
 <div class="corner" id="cBR"><span class="serif">rip a pack, fill the codex</span></div>
 <button id="codexBtn">CODEX <span class="cnt">0/8</span></button>
+<div id="bgmBar">
+  <button id="bgmToggle" aria-label="Play or pause music">▶</button>
+  <button id="bgmNext" aria-label="Next track">⏭</button>
+  <button id="bgmMute" aria-label="Mute music">🔊</button>
+  <div id="bgmName">♪ …</div>
+</div>
 
 <!-- ========== SHELF ========== -->
 <section id="shelf">
@@ -766,31 +852,14 @@ function blip(f, d, type, g) {
   try {
     const o = AC.createOscillator(), ga = AC.createGain();
     o.type = type || "sine"; o.frequency.value = f;
-    ga.gain.setValueAtTime(g || .05, AC.currentTime);
+    ga.gain.setValueAtTime((g || .05) * 2.4, AC.currentTime); /* SEs sit above the BGM */
     ga.gain.exponentialRampToValueAtTime(.0001, AC.currentTime + (d || .09));
     o.connect(ga); ga.connect(AC.destination);
     o.start(); o.stop(AC.currentTime + (d || .09));
   } catch (e) {}
 }
 
-/* ==================== MARQUEE (pixel-measured seamless loop) ==================== */
-(function () {
-  const track = $("#marqTrack");
-  const base = GAMES.map(g => g.name).join("  ✦  ") + "  ✦  ";
-  track.textContent = base + base;
-  let half = 0;
-  function measure() { half = track.scrollWidth / 2; }
-  measure();
-  if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
-  window.addEventListener("resize", measure);
-  let x = 0;
-  gsap.ticker.add((time, dt) => {
-    if (!half) { measure(); return; }
-    x -= dt * .045; /* ~45px per second, frame-rate independent */
-    if (-x >= half) x += half;
-    track.style.transform = "translateX(" + x + "px)";
-  });
-})();
+/* marquee is pure CSS now — content hardcoded in HTML, no JS needed */
 
 /* ==================== CODEX STORE ==================== */
 const CODEX_KEY = "gaspVaultCodexV1";
@@ -799,6 +868,20 @@ function loadCodex() {
 }
 function saveCodex(c) { try { localStorage.setItem(CODEX_KEY, JSON.stringify(c)); } catch (e) {} }
 let codex = loadCodex();
+
+/* ==================== VIEWS & LIKES (seeded + stored locally) ==================== */
+const STATS_KEY = "gaspVaultStatsV1";
+function loadStats() {
+  try {
+    const s = JSON.parse(localStorage.getItem(STATS_KEY)) || {};
+    return { views: s.views || {}, likes: s.likes || {}, liked: s.liked || {} };
+  } catch (e) { return { views: {}, likes: {}, liked: {} }; }
+}
+function saveStats() { try { localStorage.setItem(STATS_KEY, JSON.stringify(stats)); } catch (e) {} }
+const stats = loadStats();
+function viewsOf(i) { return 737 + ((i * 761 + 137) % 2203) + (stats.views[i] || 0); }
+function likesOf(i) { return 18 + ((i * 97) % 241) + (stats.likes[i] || 0); }
+const fmtN = n => n.toLocaleString();
 function codexOwnedCount() { return GAMES.filter((g, i) => codex[i]).length; }
 function codexComplete() { return codexOwnedCount() === GAMES.length; }
 function refreshCodexBtn() {
@@ -831,6 +914,14 @@ function makeRain(container) {
     col.style.animationDelay = (-Math.random() * 5) + "s";
     container.appendChild(col);
   }
+}
+/* full legendary treatment: code rain + sunburst holo + rainbow name */
+function dressLegendary(front) {
+  const holo = document.createElement("div"); holo.className = "holo";
+  const rain = document.createElement("div"); rain.className = "rain"; makeRain(rain);
+  front.appendChild(holo); front.appendChild(rain);
+  const nm = front.querySelector(".cardName");
+  if (nm) nm.classList.add("legName");
 }
 
 const ART_BUILDERS = {
@@ -1120,10 +1211,7 @@ function activateCardFront(rootEl, gi, hoverTarget) {
   const g = GAMES[gi];
   const front = rootEl.querySelector(".front");
   front.classList.add("f-" + g.rarity.toLowerCase());
-  if (g.rarity === "Legendary") {
-    const rain = document.createElement("div"); rain.className = "rain";
-    makeRain(rain); front.appendChild(rain);
-  }
+  if (g.rarity === "Legendary") dressLegendary(front);
   const art = front.querySelector(".art");
   const ctx = { hover: null };
   if (ART_BUILDERS[g.anim]) ART_BUILDERS[g.anim](art, ctx, front);
@@ -1197,9 +1285,9 @@ gsap.ticker.add(() => {
     const rel = i - scrollPos;
     let y, z, op;
     if (rel >= 0) { /* behind the front pack: stack up & back */
-      y = -rel * 32; z = -rel * 100; op = Math.max(0, 1 - rel * .055);
+      y = -rel * 38; z = -rel * 118; op = Math.max(0, 1 - rel * .055);
     } else { /* already dug past: slide down past the camera */
-      y = -rel * 420; z = -rel * 170; op = Math.max(0, 1 + rel * 1.5);
+      y = -rel * 480; z = -rel * 200; op = Math.max(0, 1 + rel * 1.5);
     }
     p.style.transform = "translateY(" + y + "px) translateZ(" + z + "px)";
     p.style.opacity = op;
@@ -1337,14 +1425,14 @@ pack.addEventListener("keydown", e => {
 
 function burst(cx, cy) {
   const colors = ["#d8ff3d", "#ff4b2e", "#59c8ff", "#b48cff", "#ffc83d", "#f4f1e8"];
-  for (let i = 0; i < 44; i++) {
+  for (let i = 0; i < 64; i++) {
     const p = document.createElement("div");
     p.className = "particle";
-    const sz = gsap.utils.random(4, 12);
+    const sz = gsap.utils.random(6, 18);
     p.style.cssText = "width:" + sz + "px;height:" + sz + "px;left:" + cx + "px;top:" + cy +
       "px;border-radius:" + (Math.random() > .5 ? "50%" : "2px") + ";background:" + colors[i % colors.length] + ";";
     document.body.appendChild(p);
-    const a = Math.random() * Math.PI * 2, d = 140 + Math.random() * 320;
+    const a = Math.random() * Math.PI * 2, d = 200 + Math.random() * 480;
     gsap.to(p, { x: Math.cos(a) * d, y: Math.sin(a) * d - 80, rotation: gsap.utils.random(-360, 360),
       opacity: 0, scale: 0, duration: 1.1 + Math.random(), ease: "power2.out", onComplete: () => p.remove() });
   }
@@ -1396,7 +1484,7 @@ let dragging = false, dragLastX = 0, dragMoved = 0;
 const DYNAMIC = { orbit: true, helix: true, fan: false, wall: false };
 
 function ringRadius() {
-  return Math.min(560, Math.max(250, window.innerWidth * .29));
+  return Math.min(660, Math.max(290, window.innerWidth * .34));
 }
 function buildPullCards(pulls) {
   ring.innerHTML = "";
@@ -1435,7 +1523,7 @@ gsap.ticker.add(() => {
     if (mode === "orbit") {
       c.style.transform = "rotateY(" + (state.base + i * step) + "deg) translateZ(" + state.radius + "px) translateY(" + bob + "px)";
     } else { /* helix */
-      const y = (i - (n - 1) / 2) * 64 + bob * .5;
+      const y = (i - (n - 1) / 2) * 76 + bob * .5;
       c.style.transform = "rotateY(" + (state.base + i * step) + "deg) translateZ(" + (state.radius * .85) + "px) translateY(" + y + "px)";
     }
   });
@@ -1501,29 +1589,33 @@ function layoutWall(animate) {
   const narrow = window.innerWidth < 720;
   const cols = narrow ? 2 : Math.min(n, 5), rows = Math.ceil(n / cols);
   const cw = cards[0].offsetWidth, ch = cards[0].offsetHeight;
-  const gap = narrow ? 14 : 30;
-  const availW = window.innerWidth * .92, availH = window.innerHeight * .55;
+  const gap = narrow ? 16 : 38;
+  const availW = window.innerWidth * .94, availH = window.innerHeight * .64;
   const gridW = cols * cw + (cols - 1) * gap, gridH = rows * ch + (rows - 1) * gap;
-  const sc = Math.min(1, availW / gridW, availH / gridH);
+  const sc = Math.min(1.7, availW / gridW, availH / gridH);
   cards.forEach((c, i) => {
     const col = i % cols, row = Math.floor(i / cols);
-    const x = (col - (cols - 1) / 2) * (cw + gap) * sc;
+    const kc = col - (cols - 1) / 2;
+    const x = kc * (cw + gap) * sc;
     const y = (row - (rows - 1) / 2) * (ch + gap) * sc + 30;
-    const tf = "translate3d(" + x + "px," + y + "px,0) rotateY(0deg) rotate(0deg) scale(" + sc + ")";
+    const z = kc * -50;   /* the wall recedes into the screen, left to right */
+    const rot = -12;      /* every card tilted the same direction */
+    const tf = "translate3d(" + x + "px," + y + "px," + z + "px) rotateY(" + rot + "deg) rotate(0deg) scale(" + sc + ")";
     if (animate) gsap.to(c, { duration: .85, ease: "power4.inOut", delay: i * .05, transform: tf });
     else c.style.transform = tf;
   });
 }
 function layoutFan(animate) {
   const n = cards.length;
-  const cw = cards[0].offsetWidth;
-  const spread = Math.min(cw * .78, (window.innerWidth * .82) / n);
+  const cw = cards[0].offsetWidth, ch = cards[0].offsetHeight;
+  const fs = Math.min(1.6, (window.innerHeight * .56) / ch);
+  const spread = Math.min(cw * fs * .64, (window.innerWidth * .88) / n);
   cards.forEach((c, i) => {
     const k = i - (n - 1) / 2;
     const x = k * spread;
-    const y = Math.abs(k) * Math.abs(k) * 16 + 60;
-    const rot = k * 9;
-    const tf = "translate3d(" + x + "px," + y + "px,0) rotateY(0deg) rotate(" + rot + "deg)";
+    const y = Math.abs(k) * Math.abs(k) * 20 + 70;
+    const rot = k * 8;
+    const tf = "translate3d(" + x + "px," + y + "px,0) rotateY(0deg) rotate(" + rot + "deg) scale(" + fs + ")";
     if (animate) gsap.to(c, { duration: .8, ease: "back.out(1.2)", delay: i * .06, transform: tf });
     else c.style.transform = tf;
   });
@@ -1568,31 +1660,31 @@ let fxCol = "#d8ff3d";
 const FXDRAW = {
   /* rhythm studio: full-screen sound visualizer */
   rhythm(c, t, W, H) {
-    const n = 56, bw = W / n;
+    const n = 36, bw = W / n;
     for (let i = 0; i < n; i++) {
       const h = (Math.sin(t * 3.1 + i * .37) + Math.sin(t * 5.7 + i * .93) + 2) / 4;
-      const bh = h * H * .2 + 6;
+      const bh = h * H * .27 + 8;
       c.fillStyle = hexA(fxCol, .18 + h * .4);
       c.fillRect(i * bw + 1, H - bh, bw - 2, bh);
       c.fillRect(i * bw + 1, 0, bw - 2, bh * .5);
     }
     const ph = (t * .9) % 1;
-    c.strokeStyle = hexA(fxCol, (1 - ph) * .5); c.lineWidth = 2;
+    c.strokeStyle = hexA(fxCol, (1 - ph) * .5); c.lineWidth = 5;
     c.beginPath(); c.arc(W / 2, H / 2, ph * Math.min(W, H) * .55, 0, 6.283); c.stroke();
   },
   /* chronos: code rain + sweeping clock hand */
   chronos(c, t, W, H) {
     if (!fxS.drops) {
       fxS.drops = [];
-      for (let i = 0; i < 70; i++) fxS.drops.push({ x: Math.random() * W, y: Math.random() * H,
+      for (let i = 0; i < 95; i++) fxS.drops.push({ x: Math.random() * W, y: Math.random() * H,
         sp: 2 + Math.random() * 5, g: "アイウ01MD137"[Math.floor(Math.random() * 10)] });
     }
-    c.font = "16px monospace"; c.textAlign = "center";
+    c.font = "36px monospace"; c.textAlign = "center";
     fxS.drops.forEach(d => {
       d.y += d.sp; if (d.y > H + 20) { d.y = -20; d.x = Math.random() * W; }
       c.fillStyle = hexA(fxCol, .5); c.fillText(d.g, d.x, d.y);
     });
-    c.strokeStyle = hexA(fxCol, .25); c.lineWidth = 3;
+    c.strokeStyle = hexA(fxCol, .25); c.lineWidth = 6;
     c.beginPath(); c.moveTo(W / 2, H / 2);
     c.lineTo(W / 2 + Math.cos(t * 1.5) * H * .42, H / 2 + Math.sin(t * 1.5) * H * .42); c.stroke();
     c.strokeStyle = hexA(fxCol, .12);
@@ -1602,18 +1694,18 @@ const FXDRAW = {
   racing(c, t, W, H) {
     if (!fxS.ln) {
       fxS.ln = [];
-      for (let i = 0; i < 60; i++) fxS.ln.push({ x: Math.random() * W, y: Math.random() * H,
-        len: 40 + Math.random() * 160, sp: 14 + Math.random() * 30 });
+      for (let i = 0; i < 85; i++) fxS.ln.push({ x: Math.random() * W, y: Math.random() * H,
+        len: 60 + Math.random() * 240, sp: 14 + Math.random() * 30 });
     }
     fxS.ln.forEach(l => {
       l.x += l.sp; if (l.x - l.len > W) { l.x = -l.len; l.y = Math.random() * H; }
-      c.strokeStyle = hexA(fxCol, .1 + l.sp / 44 * .5); c.lineWidth = 2;
+      c.strokeStyle = hexA(fxCol, .1 + l.sp / 44 * .5); c.lineWidth = 4;
       c.beginPath(); c.moveTo(l.x - l.len, l.y); c.lineTo(l.x, l.y); c.stroke();
     });
   },
   /* tactics: battlefield tiles flashing */
   tactics(c, t, W, H) {
-    const cs = 64, cols = Math.ceil(W / cs), rows = Math.ceil(H / cs);
+    const cs = 108, cols = Math.ceil(W / cs), rows = Math.ceil(H / cs);
     if (!fxS.fl) fxS.fl = [];
     if (Math.random() < .25) fxS.fl.push({ c: Math.floor(Math.random() * cols),
       r: Math.floor(Math.random() * rows), life: 1 });
@@ -1632,8 +1724,8 @@ const FXDRAW = {
   steam(c, t, W, H) {
     if (!fxS.dots) {
       fxS.dots = [];
-      for (let i = 0; i < 70; i++) fxS.dots.push({ x: Math.random() * W, y: Math.random() * H,
-        vx: (Math.random() - .5) * 1.2, vy: (Math.random() - .5) * 1.2, r: 2 + Math.random() * 4 });
+      for (let i = 0; i < 80; i++) fxS.dots.push({ x: Math.random() * W, y: Math.random() * H,
+        vx: (Math.random() - .5) * 1.2, vy: (Math.random() - .5) * 1.2, r: 5 + Math.random() * 8 });
     }
     fxS.dots.forEach(d => {
       d.x = (d.x + d.vx + W) % W; d.y = (d.y + d.vy + H) % H;
@@ -1641,8 +1733,8 @@ const FXDRAW = {
     });
     const n = 24, bw = W / n;
     for (let i = 0; i < n; i++) {
-      const h = ((Math.sin(t * 1.1 + i * 1.7) + 1) / 2) * H * .16;
-      c.strokeStyle = hexA(fxCol, .3); c.lineWidth = 3;
+      const h = ((Math.sin(t * 1.1 + i * 1.7) + 1) / 2) * H * .24;
+      c.strokeStyle = hexA(fxCol, .3); c.lineWidth = 5;
       c.strokeRect(i * bw + 6, H - h - 4, bw - 12, h);
     }
   },
@@ -1655,11 +1747,11 @@ const FXDRAW = {
     fxS.rg = fxS.rg.filter(g => {
       g.r += 9; const a = Math.max(0, 1 - g.r / (Math.min(W, H) * .6));
       if (a <= 0) return false;
-      c.strokeStyle = hexA(fxCol, a * .5); c.lineWidth = 3;
+      c.strokeStyle = hexA(fxCol, a * .5); c.lineWidth = 6;
       c.beginPath(); c.arc(W / 2, H / 2, g.r, 0, 6.283); c.stroke();
       return true;
     });
-    c.font = "28px 'Bebas Neue', sans-serif"; c.textAlign = "center";
+    c.font = "76px 'Bebas Neue', sans-serif"; c.textAlign = "center";
     fxS.ar = fxS.ar.filter(a => {
       a.y -= a.sp; if (a.y < -30) return false;
       c.fillStyle = hexA(fxCol, .5); c.fillText(a.g, a.x, a.y);
@@ -1672,7 +1764,7 @@ const FXDRAW = {
     if (t - fxS.last > .12) { fxS.last = t;
       fxS.ps.push({ x: Math.random() * W, y: H * (.3 + Math.random() * .7),
         v: 1 + Math.random() * 2, life: 1, txt: "+" + (1 + Math.floor(Math.random() * 137)) }); }
-    c.font = "22px 'Bebas Neue', sans-serif"; c.textAlign = "center";
+    c.font = "58px 'Bebas Neue', sans-serif"; c.textAlign = "center";
     fxS.ps = fxS.ps.filter(p => {
       p.y -= p.v; p.life -= .008; if (p.life <= 0) return false;
       c.fillStyle = hexA(fxCol, p.life * .6); c.fillText(p.txt, p.x, p.y);
@@ -1683,15 +1775,15 @@ const FXDRAW = {
   spire(c, t, W, H) {
     const N = 11, lit = Math.floor(t * 3.2) % (N + 3);
     for (let i = 0; i < N; i++) {
-      const w = W * (.62 - i * .045), h = H * .055;
+      const w = W * (.8 - i * .055), h = H * .068;
       const x = (W - w) / 2, y = H * .92 - i * (h + 6);
       const on = i < lit;
-      c.strokeStyle = hexA(fxCol, on ? .8 : .18); c.lineWidth = 2.5;
+      c.strokeStyle = hexA(fxCol, on ? .8 : .18); c.lineWidth = 4;
       c.strokeRect(x, y, w, h);
       if (on) { c.fillStyle = hexA(fxCol, .12); c.fillRect(x, y, w, h); }
     }
-    if (lit > N) { c.font = "44px 'Bebas Neue', sans-serif"; c.textAlign = "center";
-      c.fillStyle = hexA(fxCol, .8); c.fillText("🔥", W / 2, H * .92 - N * (H * .055 + 6)); }
+    if (lit > N) { c.font = "72px 'Bebas Neue', sans-serif"; c.textAlign = "center";
+      c.fillStyle = hexA(fxCol, .8); c.fillText("🔥", W / 2, H * .92 - N * (H * .068 + 6)); }
   },
   /* network: living constellation */
   network(c, t, W, H) {
@@ -1704,14 +1796,14 @@ const FXDRAW = {
     nd.forEach(n => { n.x = (n.x + n.vx + W) % W; n.y = (n.y + n.vy + H) % H; });
     for (let i = 0; i < nd.length; i++) for (let j = i + 1; j < nd.length; j++) {
       const dx = nd[i].x - nd[j].x, dy = nd[i].y - nd[j].y, d = Math.sqrt(dx * dx + dy * dy);
-      if (d < 260) {
-        c.strokeStyle = hexA(fxCol, (1 - d / 260) * .35); c.lineWidth = 1.5;
+      if (d < 330) {
+        c.strokeStyle = hexA(fxCol, (1 - d / 330) * .35); c.lineWidth = 2.5;
         c.beginPath(); c.moveTo(nd[i].x, nd[i].y); c.lineTo(nd[j].x, nd[j].y); c.stroke();
       }
     }
     nd.forEach((n, i) => {
       c.fillStyle = hexA(fxCol, .8);
-      const r = 3 + Math.sin(t * 2 + i) * 1.5;
+      const r = 6 + Math.sin(t * 2 + i) * 3;
       c.beginPath(); c.arc(n.x, n.y, Math.max(1, r), 0, 6.283); c.fill();
     });
   },
@@ -1729,7 +1821,7 @@ const FXDRAW = {
     c.fillStyle = "#0a0a09";
     c.fillRect(0, 0, W, H * .12); c.fillRect(0, H * .88, W, H * .12);
     c.fillStyle = hexA(fxCol, .9);
-    c.font = "16px monospace"; c.textAlign = "left";
+    c.font = "28px monospace"; c.textAlign = "left";
     if (Math.floor(t * 2) % 2) c.fillText("● REC", 30, H * .12 + 30);
     c.textAlign = "right";
     c.fillText("SCENE " + (1 + Math.floor(t / 4)), W - 30, H * .12 + 30);
@@ -1738,17 +1830,17 @@ const FXDRAW = {
   grail(c, t, W, H) {
     if (!fxS.gp) {
       fxS.gp = [];
-      for (let i = 0; i < 80; i++) fxS.gp.push({ x: Math.random() * W, y: Math.random() * H,
-        sp: .5 + Math.random() * 1.8, ph: Math.random() * 6.28, r: 1.5 + Math.random() * 3 });
+      for (let i = 0; i < 90; i++) fxS.gp.push({ x: Math.random() * W, y: Math.random() * H,
+        sp: .5 + Math.random() * 1.8, ph: Math.random() * 6.28, r: 3.5 + Math.random() * 6 });
     }
     fxS.gp.forEach(p => {
       p.y -= p.sp; if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
       c.fillStyle = hexA(fxCol, .5);
       c.beginPath(); c.arc(p.x + Math.sin(t * 2 + p.ph) * 14, p.y, p.r, 0, 6.283); c.fill();
     });
-    const R = Math.min(W, H) * .34;
+    const R = Math.min(W, H) * .42;
     c.save(); c.translate(W / 2, H / 2); c.rotate(t * .35);
-    c.strokeStyle = hexA(fxCol, .3); c.lineWidth = 2;
+    c.strokeStyle = hexA(fxCol, .3); c.lineWidth = 4;
     c.beginPath(); c.arc(0, 0, R, 0, 6.283); c.stroke();
     c.beginPath(); c.arc(0, 0, R * .78, 0, 6.283); c.stroke();
     for (let i = 0; i < 3; i++) {
@@ -1780,10 +1872,6 @@ function stopFX() {
 /* ==================== FOCUS (flip to read) ==================== */
 const focusEl = $("#focus"), focusFlip = $("#focusFlip");
 let flipRot = 0;
-function setFocusSide(showBack) {
-  $("#ffFront").style.pointerEvents = showBack ? "none" : "auto";
-  $("#ffBack").style.pointerEvents = showBack ? "auto" : "none";
-}
 function openFocus(gi) {
   if (focused) return;
   focused = true;
@@ -1795,8 +1883,8 @@ function openFocus(gi) {
   const ff = $("#ffFront");
   ff.classList.add("front");
   ff.classList.add("f-" + g.rarity.toLowerCase());
-  const oldRain = ff.querySelector(".rain"); if (oldRain) oldRain.remove();
-  if (g.rarity === "Legendary") { const rn = document.createElement("div"); rn.className = "rain"; makeRain(rn); ff.appendChild(rn); }
+  ff.querySelectorAll(".rain, .holo").forEach(n => n.remove());
+  if (g.rarity === "Legendary") dressLegendary(ff);
   const ctx = { hover: null };
   if (ART_BUILDERS[g.anim]) ART_BUILDERS[g.anim](ff.querySelector(".art"), ctx, ff);
   $("#ffBack").innerHTML =
@@ -1805,11 +1893,32 @@ function openFocus(gi) {
     '<div class="ft">' + g.type + '</div>' +
     '<p>' + g.desc + '</p>' +
     '<div class="tags">' + g.tags.map(t => '<span class="tag">' + t + '</span>').join("") + '</div>' +
+    '<div class="statRow">' +
     '<a id="ffPlay" href="' + g.url + '" target="_blank" rel="noopener">PLAY ↗</a>' +
+    '<div class="viewCt" id="ffViews" title="plays">👁 ' + fmtN(viewsOf(gi)) + '</div>' +
+    '<button class="heartBtn' + (stats.liked[gi] ? " on" : "") + '" id="ffHeart">' +
+    (stats.liked[gi] ? "♥" : "♡") + ' ' + fmtN(likesOf(gi)) + '</button>' +
+    '</div>' +
     '<div class="fhint">click card to flip back</div>';
+  $("#ffPlay").addEventListener("click", e => {
+    e.stopPropagation();
+    stats.views[gi] = (stats.views[gi] || 0) + 1;
+    saveStats();
+    $("#ffViews").textContent = "👁 " + fmtN(viewsOf(gi));
+  });
+  $("#ffHeart").addEventListener("click", e => {
+    e.stopPropagation();
+    if (stats.liked[gi]) { stats.liked[gi] = false; stats.likes[gi] = (stats.likes[gi] || 0) - 1; }
+    else { stats.liked[gi] = true; stats.likes[gi] = (stats.likes[gi] || 0) + 1; blip(880, .08, "sine", .04); }
+    saveStats();
+    const h = $("#ffHeart");
+    h.classList.toggle("on", !!stats.liked[gi]);
+    h.textContent = (stats.liked[gi] ? "♥" : "♡") + " " + fmtN(likesOf(gi));
+    gsap.fromTo(h, { scale: 1.3 }, { scale: 1, duration: .35, ease: "back.out(3)" });
+  });
   focusEl.style.display = "flex";
   flipRot = 0;
-  setFocusSide(false);
+  syncFaces();
   startFX(g);
   gsap.set(focusFlip, { rotationY: 0 });
   gsap.fromTo("#focusBack", { opacity: 0 }, { opacity: 1, duration: .35 });
@@ -1817,13 +1926,23 @@ function openFocus(gi) {
   gsap.fromTo("#focusWrap", { scale: .12, y: 150, rotation: -9, opacity: 0 },
     { scale: 1, y: 0, rotation: 0, opacity: 1, duration: .75, ease: "power4.out" });
   /* auto-flip to the description side */
-  gsap.delayedCall(.55, () => { flipRot = 180; gsap.to(focusFlip, { rotationY: 180, duration: .8, ease: "power3.inOut", onComplete: () => setFocusSide(true) }); });
+  gsap.delayedCall(.55, () => {
+    flipRot = 180; syncFaces();
+    gsap.to(focusFlip, { rotationY: 180, duration: .8, ease: "power3.inOut" });
+  });
   blip(660, .1, "sine", .04);
 }
+/* only the face currently shown accepts clicks — keeps PLAY/heart reachable */
+function syncFaces() {
+  const back = ((flipRot % 360) + 360) % 360 === 180;
+  $("#ffFront").style.pointerEvents = back ? "none" : "auto";
+  $("#ffBack").style.pointerEvents = back ? "auto" : "none";
+}
 focusFlip.addEventListener("click", e => {
-  if (e.target.closest("#ffPlay")) return;
+  if (e.target.closest(".statRow")) return; /* PLAY / views / heart never flip */
   flipRot = (flipRot + 180) % 360;
-  gsap.to(focusFlip, { rotationY: flipRot, duration: .7, ease: "power3.inOut", onComplete: () => setFocusSide(flipRot === 180) });
+  syncFaces();
+  gsap.to(focusFlip, { rotationY: flipRot, duration: .7, ease: "power3.inOut" });
   blip(520, .07, "sine", .03);
 });
 function closeFocus() {
@@ -1855,7 +1974,7 @@ function renderCodex() {
       /* wrap so activateCardFront finds .front */
       c.classList.add("front");
       c.classList.add("f-" + g.rarity.toLowerCase());
-      if (g.rarity === "Legendary") { const rn = document.createElement("div"); rn.className = "rain"; makeRain(rn); c.appendChild(rn); }
+      if (g.rarity === "Legendary") dressLegendary(c);
       const ctx = { hover: null };
       if (ART_BUILDERS[g.anim]) ART_BUILDERS[g.anim](c.querySelector(".art"), ctx, c);
       c.addEventListener("pointerenter", () => { if (ctx.hover) ctx.hover(c); });
@@ -1935,10 +2054,97 @@ $("#newPackBtn").addEventListener("click", () => {
   });
 });
 
+/* ==================== BGM (shuffle player) ==================== */
+/* Track discovery, most flexible first:
+   1. directory listing of BGM/ (works when the site is served, e.g. python -m http.server)
+   2. BGM/playlist.json — edit that file when you add/remove songs
+   3. embedded fallback list (snapshot of the folder) */
+const BGM_FALLBACK = ["BGM1.mp3", "BGM2.mp3", "BGM3.mp3", "BGM4.mp3", "BGM5.mp3",
+  "Game_BGM.mp3", "Mission_BGM.mp3", "Tarmac_Grinder.mp3", "Title.mp3", "Title_BGM_new.mp3"];
+async function bgmDiscover() {
+  try {
+    const res = await fetch("BGM/playlist.json");
+    if (res.ok) {
+      const j = await res.json();
+      if (Array.isArray(j) && j.length && j.every(track => typeof track === "string")) return j;
+    }
+  } catch (e) {}
+  return BGM_FALLBACK;
+}
+let bgmList = [], bgmIdx = 0, bgmStarted = false;
+const bgmAudio = new Audio();
+bgmAudio.volume = .26; /* keep music under the sound effects */
+/* spectrum analyser — feeds the background visualizer */
+let bgmAnalyser = null, bgmData = null;
+function bgmHookAnalyser() {
+  if (bgmAnalyser || !AC) return;
+  /* Chrome silences file:// audio once routed through WebAudio —
+     only hook the visualizer when the site is served over http(s) */
+  if (location.protocol !== "http:" && location.protocol !== "https:") return;
+  try {
+    const src = AC.createMediaElementSource(bgmAudio);
+    bgmAnalyser = AC.createAnalyser();
+    bgmAnalyser.fftSize = 128;
+    bgmAnalyser.smoothingTimeConstant = .82;
+    src.connect(bgmAnalyser);
+    bgmAnalyser.connect(AC.destination);
+    bgmData = new Uint8Array(bgmAnalyser.frequencyBinCount);
+  } catch (e) {}
+}
+function bgmTitle(f) { return f.replace(/\.[^.]+$/, "").replace(/_/g, " "); }
+function bgmPlay(i) {
+  if (!bgmList.length) return;
+  bgmIdx = ((i % bgmList.length) + bgmList.length) % bgmList.length;
+  bgmAudio.src = "BGM/" + encodeURIComponent(bgmList[bgmIdx]);
+  bgmAudio.play().catch(() => {});
+  $("#bgmName").textContent = "♪ " + bgmTitle(bgmList[bgmIdx]);
+  $("#bgmToggle").textContent = "⏸";
+}
+bgmDiscover().then(list => {
+  for (let i = list.length - 1; i > 0; i--) { /* shuffle */
+    const j = Math.floor(Math.random() * (i + 1));
+    const tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+  }
+  bgmList = list;
+  /* try to start right away — if the browser blocks autoplay,
+     the first click/tap starts it instead */
+  bgmAudio.src = "BGM/" + encodeURIComponent(list[0]);
+  bgmAudio.play().then(() => {
+    bgmStarted = true;
+    $("#bgmName").textContent = "♪ " + bgmTitle(list[0]);
+    $("#bgmToggle").textContent = "⏸";
+  }).catch(() => {
+    $("#bgmName").textContent = "♪ " + list.length + " tracks";
+  });
+});
+bgmAudio.addEventListener("ended", () => bgmPlay(bgmIdx + 1));
+/* fallback start on first gesture + hook the analyser once audio ctx exists */
+document.addEventListener("pointerdown", () => {
+  if (AC) bgmHookAnalyser();
+  if (!bgmStarted && bgmList.length) { bgmStarted = true; bgmPlay(bgmIdx); }
+});
+$("#bgmToggle").addEventListener("click", e => {
+  e.stopPropagation();
+  if (!bgmStarted) { bgmStarted = true; bgmPlay(bgmIdx); return; }
+  if (bgmAudio.paused) { bgmAudio.play().catch(() => {}); $("#bgmToggle").textContent = "⏸"; }
+  else { bgmAudio.pause(); $("#bgmToggle").textContent = "▶"; }
+});
+$("#bgmNext").addEventListener("click", e => {
+  e.stopPropagation();
+  bgmStarted = true;
+  bgmPlay(bgmIdx + 1);
+});
+$("#bgmMute").addEventListener("click", e => {
+  e.stopPropagation();
+  bgmAudio.muted = !bgmAudio.muted;
+  $("#bgmMute").textContent = bgmAudio.muted ? "🔇" : "🔊";
+});
+
 /* ==================== GLOBAL KEYS ==================== */
 document.addEventListener("keydown", e => {
   if (e.key === "Escape") { closeFocus(); closeCodex(); }
 });
+document.addEventListener("dragstart", e => e.preventDefault());
 
 /* ==================== GENERATIVE BACKGROUND (interactive grid) ==================== */
 /* squares light up under the cursor; a few odd cells misbehave on purpose */
@@ -1948,7 +2154,7 @@ document.addEventListener("keydown", e => {
   const cx = cv.getContext("2d");
   const DPR = Math.min(2, window.devicePixelRatio || 1);
   const CELL_CSS = 46;
-  let W = 0, H = 0, cell = 0, cellsArr = [];
+  let W = 0, H = 0, cell = 0, cellsArr = [], gcols = 1, grows = 1;
   function build() {
     W = cv.width = Math.floor(innerWidth * DPR);
     H = cv.height = Math.floor(innerHeight * DPR);
@@ -1956,6 +2162,7 @@ document.addEventListener("keydown", e => {
     cell = CELL_CSS * DPR;
     cellsArr = [];
     const cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
+    gcols = cols; grows = rows;
     const glyphs = "アイウ01MD137✦*+";
     for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) {
       const rnd = Math.random();
@@ -1975,13 +2182,28 @@ document.addEventListener("keydown", e => {
     cx.fillStyle = "#0f0f0e"; cx.fillRect(0, 0, W, H);
     const R = 175 * DPR;
     cx.lineWidth = 1.4 * DPR;
+    /* pull the BGM spectrum — the grid doubles as an equalizer */
+    let levels = null;
+    if (typeof bgmAnalyser !== "undefined" && bgmAnalyser && bgmData &&
+        !bgmAudio.paused && !bgmAudio.muted) {
+      bgmAnalyser.getByteFrequencyData(bgmData);
+      levels = bgmData;
+    }
+    const nb = levels ? Math.max(1, Math.floor(levels.length * .75)) : 0;
     for (let i = 0; i < cellsArr.length; i++) {
       const s = cellsArr[i];
       const x = s.c * cell + cell / 2, y = s.r * cell + cell / 2;
       const dx = x - mx, dy = y - my;
       const d = Math.sqrt(dx * dx + dy * dy);
-      const target = d < R ? (1 - d / R) : 0;
-      if (Math.random() < .00012) s.e = Math.max(s.e, .85); /* ambient twinkle */
+      let target = d < R ? (1 - d / R) : 0;
+      if (levels) { /* EQ columns rise from the bottom of the screen */
+        const bin = Math.min(nb - 1, Math.floor(s.c / gcols * nb));
+        const lv = levels[bin] / 255;
+        const rowFrac = 1 - (s.r + 1) / grows; /* 0 = bottom row */
+        if (lv > rowFrac) target = Math.max(target, Math.min(1, (lv - rowFrac) * 2.6) * .9);
+      } else if (Math.random() < .00012) {
+        s.e = Math.max(s.e, .85); /* no music: gentle ambient twinkle */
+      }
       s.e += (target - s.e) * (target > s.e ? .32 : .045);
       if (s.e < .03) { /* resting: faint dot */
         cx.fillStyle = "rgba(244,241,232,.05)";
